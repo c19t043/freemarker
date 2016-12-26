@@ -1,0 +1,23 @@
+package ${packageName};
+
+import java.util.List;
+
+import ${packageAllName};
+import com.java.ec.common.PageSortModel;
+import com.java.platform.user.service.Service;
+
+public interface ${className}Service extends Service {
+	/**
+	 * 获取分页列表
+	 * @param model
+	 * @param ${varName}
+	 * @return
+	 */
+	List<${className}> get${className}ByPagination(PageSortModel model,${className} ${varName});
+	/**
+	 * 添加or保存
+	 * @param ${varName}
+	 * @return
+	 */
+	${className} saveOrUpdate${className}(${className} ${varName});
+}

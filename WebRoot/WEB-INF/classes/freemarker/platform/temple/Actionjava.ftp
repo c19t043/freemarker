@@ -1,0 +1,77 @@
+package ${packageName};
+
+import java.util.List;
+
+import ${packageAllName};
+import com.java.ec.common.PageSortModel;
+import ${packageAllName}Service;
+import com.java.platform.core.Action;
+
+@SuppressWarnings("serial")
+public class ${className}Action extends Action  {
+	private ${className}Service ${varName}Service;
+	private ${className} ${varName};
+	private String action;
+	
+	@Override
+	public String execute() throws Exception {
+		switch(action){
+		//获取分页列表
+		case "query${className}ByPage":
+			query${className}ByPage();return "list";
+		//添加or保存
+		case "saveOrUpdate${className}":
+			saveOrUpdate${className}();return redirectActionResult("list");
+		//跳转到添加or编辑页面
+		case "toAddOrUpdatePage":
+			toAddOrUpdatePage();return "toAddOrUpdate";
+		}
+		return SUCCESS;
+	}
+	/**
+	 * 获取分页列表
+	 */
+	private void query${className}ByPage(){
+		PageSortModel model = new PageSortModel(getHttpServletRequest(), "list");
+		List<${className}> ${varName}ByPage = ${varName}Service.get${className}ByPagination(model, ${varName});
+		this.putToRequest("list", ${varName}ByPage);
+	}
+	/**
+	 * 跳转到添加or编辑页面
+	 */
+	private void toAddOrUpdatePage(){
+		if(${varName}!=null){
+			Long id = ${varName}.getId();
+			if(id!=null) {
+				${varName} = ${varName}Service.get(id, ${className}.class);
+			}
+		}
+	}
+	/**
+	 * 添加or保存
+	 */
+	private void saveOrUpdate${className}(){
+		${varName}Service.saveOrUpdate${className}(${varName});
+	}
+	
+	
+	
+	
+	//-----------------------------------------setter/getter
+	public ${className} get${className}() {
+		return ${varName};
+	}
+	public void set${className}(${className} ${varName}) {
+		this.${varName} = ${varName};
+	}
+	public String getAction() {
+		return action;
+	}
+	public void setAction(String action) {
+		this.action = action;
+	}
+	public void set${className}Service(
+			${className}Service ${varName}Service) {
+		this.${varName}Service = ${varName}Service;
+	}
+}

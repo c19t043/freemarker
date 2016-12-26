@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC 
+	"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+	"http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package namespace="/${varName}" name="${varName}ActionJson" extends="struts-default">
+		<result-types>
+			<result-type name="json" class="org.apache.struts2.json.JSONResult" />
+		</result-types>
+		
+		<interceptors>
+			<interceptor name="json" class="org.apache.struts2.json.JSONInterceptor" />
+		</interceptors>
+		
+		<action name="json_" class="${varName}Action" method="{1}">
+			<result name="success" type="json"></result>
+		</action>
+	</package>
+	
+	<package namespace="/${varName}" name="${varName}Action" extends="com.java.platform">
+		<action name="${varName}" class="${varName}Action">
+			<result name="list">/${className}/${varName}_list.jsp</result>
+			<result name="list_action" type="stateRedirectAction">
+				<param name="actionName">${varName}.action</param>
+				<param name="action">query${className}ByPage</param>
+			</result>
+			<result name="toAddOrUpdate">/${className}/${varName}_add.jsp</result>
+		</action>
+	</package>
+</struts>

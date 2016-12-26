@@ -1,0 +1,54 @@
+package ${packageName};
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.BeanUtils;
+
+import ${packageAllName};
+import com.java.ec.common.PageSortModel;
+import ${packageAllName}Service;
+import com.java.platform.user.service.ServiceImpl;
+import com.java.util.EncryptUtil;
+
+public class ${className}ServiceImpl extends ServiceImpl implements ${className}Service{
+
+	@Override
+	public <T> List<T> findPageByCriteria(PageSortModel arg0, Object arg1,
+			Map<String, ?> arg2) {
+		return null;
+	}
+	@Override
+	public List<${className}> get${className}ByPagination(PageSortModel model,
+			${className} ${varName}) {
+		Map<String,Object> param = new HashMap<String,Object>();
+		StringBuilder hql = new StringBuilder();
+		hql.append("FROM ${className} c where 1=1 ");
+		if(${varName}!=null){
+		<#list jsplist as field>
+			if(StringUtils.isNotBlank(${varName}.get${field})){
+				hql.append(" and c.${field} like :${field}");
+				param.put("${field}", "%"+${varName}.get${field}+"%");
+			}
+		</#list>
+		}
+		hql.append(" order by c.id desc");
+		List<${className}> list = (List<${className}>) super.listForEc(hql.toString(),model, param);
+		return list;
+	}
+	@Override
+	public ${className} saveOrUpdate${className}(${className} ${varName}) {
+		Long id = ${varName}.getId();
+		if(id==null){
+			super.add(${varName});
+		}else{
+			${className} qryObj = super.get(id, ${className}.class);
+			BeanUtils.copyProperties(${varName}, qryObj, new String[]{"id"});
+			super.edit(qryObj);
+			return qryObj;
+		}
+		return ${varName};
+	}
+}
